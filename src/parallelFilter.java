@@ -9,14 +9,14 @@ public class parallelFilter  extends RecursiveAction {
        int filterSize;
     String[] fileInput;
     ArrayList<String> filtered;
-    static final int SEQUENTIAL_CUTOFF = 250;
+    static final int SEQUENTIAL_CUTOFF = 100;
  
     parallelFilter(String [] fileInput, int low, int high, int filterSize, ArrayList<String >filtered){
         this.low = low;
         this.high = high; // line count or array size
         this.filterSize = filterSize;
         this.fileInput = fileInput;
-        this.filtered = filtered; 
+        this.filtered = filtered;
     }
 
     protected void compute(){
