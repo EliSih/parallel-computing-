@@ -2,6 +2,8 @@ import java.util.Arrays;
 
 public class tool {
 
+    long startTime;
+
 //    public static void strip(String rawData){}
 
     /**

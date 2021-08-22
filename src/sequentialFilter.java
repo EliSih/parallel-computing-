@@ -24,6 +24,9 @@ public class sequentialFilter {
         int lineCount = 0;
         Scanner read = null;
 
+
+
+
         // calculating median index
         try {
             read = new Scanner(new File("sampleInput100.txt"));
@@ -38,6 +41,7 @@ public class sequentialFilter {
 
         }
 
+        long startTime = System.nanoTime();
 
         String sortedWindow = "";
         int medianPos = 0;
@@ -54,6 +58,10 @@ public class sequentialFilter {
         }
         String completeSet = tool.filteredSetCompletion(medianSet, data,dataSize);
         System.out.print(completeSet);
+    }
+
+    private static void tick(){
+
     }
 
 }
