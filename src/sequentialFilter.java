@@ -9,16 +9,16 @@ public class sequentialFilter {
     // sequential median filter implementation
     static long startTime = 0;
     public static void main(String[] args){
-        Scanner keyboard = new Scanner(System.in);
 
-        int fSize = Integer.parseInt(args[1]);
+        String[] cmdInput = args[0].split(" "); // command line input
+        int fSize = Integer.parseInt(cmdInput[1]);
 
-        // calculating median index
+
         try {
-            Scanner read = new Scanner(new File(args[0]));
+            Scanner read = new Scanner(new File(cmdInput[0]));
             int lineCount = Integer.parseInt(read.nextLine());
 
-            FileWriter writer = new FileWriter(args[2], true);
+            FileWriter writer = new FileWriter(cmdInput[2], true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
             String unfiltered = "";

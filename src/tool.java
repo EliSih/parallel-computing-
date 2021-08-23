@@ -54,7 +54,7 @@ public class tool {
         }
 
         unformatedOutput = lowerBoundDigits + medianSet + upperBoundDigits;
-        return  unformatedOutput.charAt(0) + "," + unformatedOutput.substring(1); 
+        return  unformatedOutput.charAt(0) + "," + unformatedOutput.substring(1);
 
     }
 }

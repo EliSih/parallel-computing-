@@ -10,8 +10,9 @@ public class implementParallelFilter {
     public static void main(String[] args) {
         ForkJoinPool pool = new ForkJoinPool();
         String[] fileInput;
+        String[] cmdInput = args[0].split(" ");
         try {
-            Scanner read = new Scanner(new File(args[0]));
+            Scanner read = new Scanner(new File(cmdInput[0]));
             int lineCount = Integer.parseInt(read.nextLine());
             fileInput = new String[lineCount + 1];
             int i = 0;
@@ -26,13 +27,13 @@ public class implementParallelFilter {
             }
 
             ArrayList<String> filtered = new ArrayList<>();
-            int filterSize = Integer.parseInt(args[1]);
+            int filterSize = Integer.parseInt(cmdInput[1]);
             tick(); //start timer
             parallelFilter parallelFilter = new parallelFilter(fileInput, 0, lineCount-1, filterSize, filtered);
             pool.invoke(parallelFilter);
             duration = tock(lineCount);
 //
-            FileWriter fileWriter = new FileWriter(args[2], true);
+            FileWriter fileWriter = new FileWriter(cmdInput[2], true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(lineCount + "\n");
             int b = 1;
