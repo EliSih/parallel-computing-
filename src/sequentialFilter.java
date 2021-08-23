@@ -7,18 +7,18 @@ import java.util.Scanner;
 
 public class sequentialFilter {
     // sequential median filter implementation
-
+    static long startTime = 0;
     public static void main(String[] args){
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Enter filter size");
-        int fSize = keyboard.nextInt();
+
+        int fSize = Integer.parseInt(args[1]);
 
         // calculating median index
         try {
-            Scanner read = new Scanner(new File("/home/elisih/CSC2002/Assignment1/sampleInput100.txt"));
+            Scanner read = new Scanner(new File(args[0]));
             int lineCount = Integer.parseInt(read.nextLine());
 
-            FileWriter writer = new FileWriter("filtered.txt", true);
+            FileWriter writer = new FileWriter(args[2], true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
             String unfiltered = "";
@@ -30,8 +30,11 @@ public class sequentialFilter {
             int low = 0;
             int high = fSize ;
             String medianSet ="";
-
             medianPos = tool.medianIndex(fSize);
+
+            float duration = 0;
+
+            sequentialFilter.tick(); //start timer
             for(int i = 0; i<lineCount;i++) {
                 unfiltered = read.nextLine().replace(",","");
                 sliceFrom = unfiltered.indexOf(" ") + 1;
@@ -48,12 +51,17 @@ public class sequentialFilter {
                 }
 
                 filteredData = tool.filteredSetCompletion(medianSet, unfiltered,unfiltered.length());
-//                bufferedWriter.write(i + " " + filteredData + "\n");
+                bufferedWriter.write(i + " " + filteredData + "\n");
                 System.out.println(i + " " + filteredData);
                 low = 0;
                 high = fSize;
                 medianSet = "";
             }
+            duration = sequentialFilter.tock(lineCount);
+
+            System.out.println("data items:" + lineCount);
+            System.out.println("FilterSize-duration");
+            System.out.println(fSize + " " + duration);
 
 
 
@@ -61,13 +69,13 @@ public class sequentialFilter {
         catch (Exception e){
             System.out.println("ran into exception");
         }
-
-
-
-
+    }
+    public static void tick(){
+        startTime = System.nanoTime();
     }
 
-
-
+    public static float tock(int noDataItems) {
+        return (System.nanoTime() - startTime) / noDataItems;
+    }
 }
 
