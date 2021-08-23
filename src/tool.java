@@ -47,11 +47,14 @@ public class tool {
         int Bounds = (setSize - mSetSize)/2;
         String upperBoundDigits = "";
         String lowerBoundDigits = "";
+        String unformatedOutput;
         for(int i=0; i<Bounds; i++){
             lowerBoundDigits += unfilteredData.substring(i, i+1);
             upperBoundDigits += unfilteredData.charAt(Bounds + mSetSize + i);
         }
-        return  lowerBoundDigits + medianSet + upperBoundDigits;
+
+        unformatedOutput = lowerBoundDigits + medianSet + upperBoundDigits;
+        return  unformatedOutput.charAt(0) + "," + unformatedOutput.substring(1); 
 
     }
 }
