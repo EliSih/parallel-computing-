@@ -6,10 +6,12 @@ public class parallelFilter  extends RecursiveAction {
 
     int low; // arguments
     int high;
-       int filterSize;
+    int filterSize;
     String[] fileInput;
     ArrayList<String> filtered;
     static final int SEQUENTIAL_CUTOFF = 100;
+
+    parallelFilter(){}
  
     parallelFilter(String [] fileInput, int low, int high, int filterSize, ArrayList<String >filtered){
         this.low = low;
@@ -27,7 +29,7 @@ public class parallelFilter  extends RecursiveAction {
         String medianSet = "";
         String fDataItem; //filtered dataItem;
         int medianPos = tool.medianIndex(filterSize);
-        if(high - low < SEQUENTIAL_CUTOFF){
+        if((high - low) < SEQUENTIAL_CUTOFF){
             for(int i = low; i<high;i++){
                 data = fileInput[i];
                 while( !(hi > data.length() )){
@@ -38,11 +40,18 @@ public class parallelFilter  extends RecursiveAction {
                 }
                 fDataItem = tool.filteredSetCompletion(medianSet, data,data.length());
                 filtered.add(fDataItem);
+                lo = 0;
+                hi = filterSize;
+                medianSet = "";
             }
+            return;
         }
         else{
-            invokeAll(new parallelFilter(fileInput, low, (high+low)/2, filterSize, filtered),
-                    new parallelFilter(fileInput, (high+low)/2,high,filterSize, filtered));
+            parallelFilter left = new parallelFilter(fileInput, low, (high+low)/2, filterSize, filtered);
+            parallelFilter right = new parallelFilter(fileInput, (high+low)/2,high,filterSize, filtered);
+            left.fork();
+            right.compute();
+            left.join();
         }
 
     }

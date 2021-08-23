@@ -10,58 +10,64 @@ public class sequentialFilter {
 
     public static void main(String[] args){
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Enter Unfiltered Data");
-        String data = keyboard.nextLine().replace(",","");
-        data = data.substring(2);
         System.out.println("Enter filter size");
         int fSize = keyboard.nextInt();
-        int dataSize = data.length();
-        String filteredData;
-        String medianSet ="";
-        int low = 0;
-        int high = fSize ;
-        int counter = 0;
-        int lineCount = 0;
-        Scanner read = null;
-
-
-
 
         // calculating median index
         try {
-            read = new Scanner(new File("sampleInput100.txt"));
-            lineCount = read.nextInt();
+            Scanner read = new Scanner(new File("/home/elisih/CSC2002/Assignment1/sampleInput100.txt"));
+            int lineCount = Integer.parseInt(read.nextLine());
 
-            File file = new File("/home/elisih/CSC2002/Assignment1CSC2002S/filtered.txt");
-            FileWriter writer = new FileWriter(file, true);
+            FileWriter writer = new FileWriter("filtered.txt", true);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+            String unfiltered = "";
+            String sortedWindow = "";
+            int medianPos = 0;
+            String  filteredData;
+            int sliceFrom;
+
+            int low = 0;
+            int high = fSize ;
+            String medianSet ="";
+
+            medianPos = tool.medianIndex(fSize);
+            for(int i = 0; i<lineCount;i++) {
+                unfiltered = read.nextLine().replace(",","");
+                sliceFrom = unfiltered.indexOf(" ") + 1;
+                unfiltered = unfiltered.substring(sliceFrom);
+
+                while (!(high > unfiltered.length())) {
+
+                    sortedWindow = tool.sort(unfiltered.substring(low, high));
+
+                    medianSet += tool.median(medianPos, sortedWindow); // adding one median per iteration to the medianSet
+                    low++;
+                    high++;
+
+                }
+
+                filteredData = tool.filteredSetCompletion(medianSet, unfiltered,unfiltered.length());
+//                bufferedWriter.write(i + " " + filteredData + "\n");
+                System.out.println(i + " " + filteredData);
+                low = 0;
+                high = fSize;
+                medianSet = "";
+            }
+
 
 
         }
         catch (Exception e){
-
+            System.out.println("ran into exception");
         }
 
-        long startTime = System.nanoTime();
 
-        String sortedWindow = "";
-        int medianPos = 0;
-        medianPos = tool.medianIndex(fSize);
 
-        while( !(high > dataSize )){
-
-            sortedWindow = tool.sort(data.substring(low, high));
-
-            medianSet += tool.median(medianPos, sortedWindow); // adding one median per iteration to the medianSet
-            low++;
-            high++;
-
-        }
-        String completeSet = tool.filteredSetCompletion(medianSet, data,dataSize);
-        System.out.print(completeSet);
-    }
-
-    private static void tick(){
 
     }
+
+
 
 }
+

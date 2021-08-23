@@ -49,7 +49,7 @@ public class tool {
         String lowerBoundDigits = "";
         for(int i=0; i<Bounds; i++){
             lowerBoundDigits += unfilteredData.substring(i, i+1);
-            upperBoundDigits += unfilteredData.substring(i + setSize-1,setSize);
+            upperBoundDigits += unfilteredData.charAt(Bounds + mSetSize + i);
         }
         return  lowerBoundDigits + medianSet + upperBoundDigits;
 
